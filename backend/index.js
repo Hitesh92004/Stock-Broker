@@ -27,6 +27,11 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Root endpoint
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Zerodha Clone Backend API is running!", timestamp: new Date() });
+});
+
 // Health check endpoint for Render
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "Server is running", timestamp: new Date() });
@@ -76,6 +81,11 @@ app.post("/newOrder", async (req, res) => {
     console.error("Error saving order:", err.message);
     res.status(500).json({ error: "Error saving order" });
   }
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
 });
 
 // Start the Server
